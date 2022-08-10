@@ -1,6 +1,9 @@
 import { useEffect, useRef, useState } from 'react';
-import axios from 'axios';
 import { IPost } from '../models/IPost';
+import PostApi from '../apis/PostApi'
+
+export type DeletePost = (deleteId: number) => void;
+export type CreatePost = (title:string) => void;
 
 const usePosts = () => {
   const [posts, setPosts] = useState<IPost[]>([]);
@@ -8,16 +11,17 @@ const usePosts = () => {
 
   useEffect(() => {
     (async () => {
-      const response = await axios.get('https://jsonplaceholder.typicode.com/posts');
-      setPosts(response.data);
+      const resultPosts = await PostApi.getPosts();
+      resultPosts && setPosts(resultPosts);
     })();
   }, []);
 
-  const createPost = ({ userId, title, body }: IPost) => {
-    setPosts([...posts, { id: pk.current++, userId, title, body }]);
+  const createPost: CreatePost = title => {
+    const [userId, body] = [0, 'body'];
+    setPosts([...posts, { id: pk.current++, title, userId, body  }]);
   };
 
-  const deletePost = (deleteId: number) => {
+  const deletePost: DeletePost = deleteId => {
     setPosts(posts.filter(({ id }) => id !== deleteId));
   };
 
