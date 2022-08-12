@@ -1,11 +1,12 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
-import Path from '../models/Path'
+import React from "react";
+import { Link } from "react-router-dom";
+import Path from "../models/Path";
 
 const Index = () => {
   return (
     <div>
       <Link to={Path.TODO}>TodoList Page</Link>
+      <Link to={Path.MOVIE}>Movie Page</Link>
     </div>
   );
 };
