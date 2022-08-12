@@ -20,6 +20,7 @@ const Modal: FC<ModalProps> = (props) => {
         >
           삭제
         </button>
+
       </$.DialogBox>
       <$.Backdrop
         onClick={(e: React.MouseEvent) => {
