@@ -1,12 +1,12 @@
-import React from 'react';
-import { RecoilRoot } from 'recoil';
-import Router from './Router';
+import React from "react";
+import Circle from "./components/Circle";
 
 function App() {
   return (
-    <RecoilRoot>
-      <Router />
-    </RecoilRoot>
+    <>
+      <Circle borderColor="yellow" bgColor="teal" />
+      <Circle bgColor="tomato" />
+    </>
   );
 }
 
