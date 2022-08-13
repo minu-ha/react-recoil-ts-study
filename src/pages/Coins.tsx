@@ -6,7 +6,7 @@ import { Theme } from "../theme";
 const Container = styled.div`
   padding: 0px 200px;
   margin: 0 auto;
-  max-width: 550px;
+  max-width: 700px;
 `;
 
 const Header = styled.header`
@@ -24,7 +24,12 @@ const Coin = styled.li`
   margin-bottom: 10px;
   padding: 20px;
   border-radius: 15px;
-
+  a {
+    display: flex;
+    padding: 20px;
+    transition: color 0.2s ease-in;
+    align-items: center;
+  }
   &:hover {
     a {
       color: ${({ theme }) => theme.accentColor};
@@ -35,6 +40,12 @@ const Coin = styled.li`
 const Title = styled.h1`
   color: ${({ theme }) => theme.accentColor};
   font-size: 50px;
+`;
+
+const Img = styled.img`
+  width: 25px;
+  height: 25px;
+  margin-right: 10px;
 `;
 
 interface CoinInterface {
@@ -70,7 +81,12 @@ const Coins = () => {
         <CoinsList>
           {coins.map((coin) => (
             <Coin key={coin.id}>
-              <Link to={`/${coin.id}`}>{coin.name} &rarr;</Link>
+              <Link to={`/${coin.id}`} state={coin}>
+                <Img
+                  src={`https://coinicons-api.vercel.app/api/icon/${coin.symbol.toLowerCase()}`}
+                />
+                {coin.name} &rarr;
+              </Link>
             </Coin>
           ))}
         </CoinsList>
