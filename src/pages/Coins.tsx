@@ -1,8 +1,10 @@
 import React from "react";
 import { useQuery } from "react-query";
 import { Link } from "react-router-dom";
+import { useSetRecoilState } from "recoil";
 import styled from "styled-components";
 import { fetchCoins } from "../api";
+import { isDarkAtom } from "../atmos";
 
 const Container = styled.div`
   padding: 0px 200px;
@@ -20,8 +22,8 @@ const Header = styled.header`
 const CoinsList = styled.ul``;
 
 const Coin = styled.li`
-  background-color: black;
-  color: ${({ theme }) => theme.backgroundColor};
+  background-color: ${({ theme }) => theme.cardBackgroundColor};
+  color: ${({ theme }) => theme.textColor};
   margin-bottom: 10px;
   padding: 20px;
   border-radius: 15px;
@@ -61,11 +63,13 @@ interface ICoin {
 
 const Coins = () => {
   const { isLoading, data } = useQuery<ICoin[]>(["allCoins"], fetchCoins);
-
+  const setterFunction = useSetRecoilState(isDarkAtom);
+  const toggleModeToDark = () => setterFunction((prev) => !prev);
   return (
     <Container>
       <Header>
         <Title>Coins</Title>
+        <button onClick={toggleModeToDark}>toggle mode</button>
       </Header>
       {isLoading ? (
         "loading"
