@@ -1,14 +1,9 @@
-import React from 'react';
-import Posts from '../components/Posts';
-import usePosts from '../hooks/usePosts';
-import PostForm from '../components/PostForm';
+import Posts from "../components/Posts";
+import usePosts from "../hooks/usePosts";
+import PostForm from "../components/PostForm";
 
 const Todo = () => {
-  const {
-    posts,
-    deletePost,
-    createPost,
-  } = usePosts();
+  const { posts, deletePost, createPost } = usePosts();
 
   return (
     <div>
