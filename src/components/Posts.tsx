@@ -1,9 +1,8 @@
-import { FC } from "react";
+import { FC, useCallback, useState } from "react";
 import * as $ from "./Posts.styled";
 import { DeletePost } from "../hooks/usePosts";
 import { IPost } from "../models/IPost";
-import useModal from "../hooks/useModal";
-import { Button } from "@mui/material";
+import Modal from "./Modal";
 
 interface PostsProps {
   posts: IPost[];
@@ -11,52 +10,10 @@ interface PostsProps {
 }
 
 const Posts: FC<PostsProps> = (props) => {
-  const { showModal } = useModal;
-
-  const handleClickAlertModal = () => {
-    showModal({
-      modalType: "AlertModal",
-      modalProps: {
-        message: "success",
-      },
-    });
-  };
-
-  const handleClickConfirmModal = () => {
-    showModal({
-      modalType: "ConfirmModal",
-      modalProps: {
-        message: "yes or no",
-        confirmText: "yes",
-        cancelText: "no",
-        handleConfirm: () => {
-          console.log("yes");
-        },
-        handleClose: () => {
-          console.log("no");
-        },
-      },
-    });
-  };
-
   const { posts, deletePost } = props;
 
   return (
     <$.Posts>
-      <Button
-        variant="contained"
-        onClick={handleClickAlertModal}
-        sx={{ mx: 2 }}
-      >
-        Alert Modal
-      </Button>
-      <Button
-        variant="contained"
-        onClick={handleClickConfirmModal}
-        sx={{ mx: 2 }}
-      >
-        Confirm Modal
-      </Button>
       {posts.map(({ id, title }) => {
         return (
           <Post
@@ -79,10 +36,26 @@ interface PostProps {
 
 const Post: FC<PostProps> = (props) => {
   const { id, title, deletePost } = props;
+
+  const [isOpenModal, setOpenModal] = useState<boolean>(false);
+
+  const onClickToggleModal = useCallback(() => {
+    setOpenModal(!isOpenModal);
+  }, [isOpenModal]);
+
   return (
     <$.Post>
       {title}
       <$.YellowButton onClick={() => void deletePost(id)}>삭제</$.YellowButton>
+
+      {isOpenModal && (
+        <Modal
+          id={id}
+          deletePost={deletePost}
+          onClickToggleModal={onClickToggleModal}
+        ></Modal>
+      )}
+      <button onClick={onClickToggleModal}>삭제</button>
     </$.Post>
   );
 };
