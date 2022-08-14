@@ -7,11 +7,7 @@ import ModalStore from '../stores/ModalStore'
 import { observer } from 'mobx-react'
 
 const Todo = () => {
-  const {
-    posts,
-    deletePost,
-    createPost,
-  } = usePosts();
+  const { posts, deletePost, createPost } = usePosts();
 
   const { isVisible } = ModalStore
 

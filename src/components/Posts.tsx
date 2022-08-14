@@ -39,22 +39,27 @@ const Post: FC<PostProps> = props => {
 }
 
 interface PostsProps {
-  posts: IPost[]
-  deletePost: DeletePost
+  posts: IPost[];
+  deletePost: DeletePost;
 }
 
-const Posts: FC<PostsProps> = props => {
+const Posts: FC<PostsProps> = (props) => {
   const { posts, deletePost } = props;
 
   return (
     <$.Posts>
       {posts.map(({ id, title }) => {
         return (
-          <Post id={id} title={title} key={`post-${id}`} deletePost={deletePost} />
+          <Post
+            id={id}
+            title={title}
+            key={`post-${id}`}
+            deletePost={deletePost}
+          />
         );
       })}
     </$.Posts>
   );
-}
+};
 
 export default Posts;
