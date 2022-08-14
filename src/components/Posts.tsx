@@ -1,8 +1,42 @@
-import { FC, useCallback, useState } from "react";
-import * as $ from "./Posts.styled";
-import { DeletePost } from "../hooks/usePosts";
-import { IPost } from "../models/IPost";
-import Modal from "./Modal";
+import React, { FC } from 'react';
+import * as $ from './Posts.styled';
+import { DeletePost } from '../hooks/usePosts'
+import { IPost } from '../models/IPost';
+import ModalStore from '../stores/ModalStore'
+
+interface PostProps {
+  id: number;
+  title: string;
+  deletePost: DeletePost
+}
+
+const Post: FC<PostProps> = props => {
+  const { id, title, deletePost } = props;
+  const { onVisibleModal, onCloseModal } = ModalStore
+
+  const onDeleteHandler = (postId: number) => {
+    onVisibleModal({
+      modalTitle: '삭제하시겠습니까?',
+      modalContents: '삭제한 글을 되돌릴 수 없습니다',
+      onClose: onCloseModal,
+      onSubmit: () => {
+        deletePost(postId)
+        onCloseModal();
+      } 
+    })
+  }
+
+  return (
+    <$.Post>
+      {title}
+      <$.YellowButton
+        onClick={() => onDeleteHandler(id)}
+      >
+        삭제
+      </$.YellowButton>
+    </$.Post>
+  )
+}
 
 interface PostsProps {
   posts: IPost[];
@@ -25,38 +59,6 @@ const Posts: FC<PostsProps> = (props) => {
         );
       })}
     </$.Posts>
-  );
-};
-
-interface PostProps {
-  id: number;
-  title: string;
-  deletePost: DeletePost;
-}
-
-const Post: FC<PostProps> = (props) => {
-  const { id, title, deletePost } = props;
-
-  const [isOpenModal, setOpenModal] = useState<boolean>(false);
-
-  const onClickToggleModal = useCallback(() => {
-    setOpenModal(!isOpenModal);
-  }, [isOpenModal]);
-
-  return (
-    <$.Post>
-      {title}
-      <$.YellowButton onClick={() => void deletePost(id)}>삭제</$.YellowButton>
-
-      {isOpenModal && (
-        <Modal
-          id={id}
-          deletePost={deletePost}
-          onClickToggleModal={onClickToggleModal}
-        ></Modal>
-      )}
-      <button onClick={onClickToggleModal}>삭제</button>
-    </$.Post>
   );
 };
 
