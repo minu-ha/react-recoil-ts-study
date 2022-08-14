@@ -10,13 +10,11 @@ const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
 );
 root.render(
-  <React.StrictMode>
-    <RecoilRoot>
-      <QueryClientProvider client={new QueryClient()}>
-        <ThemeProvider theme={darkTheme}>
-          <App />
-        </ThemeProvider>
-      </QueryClientProvider>
-    </RecoilRoot>
-  </React.StrictMode>
+  <RecoilRoot>
+    <QueryClientProvider client={new QueryClient()}>
+      <ThemeProvider theme={darkTheme}>
+        <App />
+      </ThemeProvider>
+    </QueryClientProvider>
+  </RecoilRoot>
 );
